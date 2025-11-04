@@ -7,6 +7,7 @@ O sistema utiliza o modelo **TF-IDF** (*Term Frequency-Inverse Document Frequenc
 -----
 
 ## ✨ Funcionalidades e Tecnologia
+https://colab.research.google.com/drive/1Qc9kmfOLYn0HJ3kXOTWEQtfDKJ91BI4n este link facilita o uso do programa
 
 ### ⚙️ Funcionamento Central
 
