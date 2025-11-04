@@ -1,0 +1,115 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Sistema de Recomendação de Jogos da Steam}
+\author{Jorge Sugano Suzart}
+\date{Novembro 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+
+Este trabalho apresenta o desenvolvimento de um \textbf{sistema de recomendação de jogos da plataforma Steam}, que tem como objetivo auxiliar usuários a descobrirem novos títulos semelhantes aos seus jogos favoritos. O sistema aplica técnicas de \textit{Processamento de Linguagem Natural} (PLN) e \textit{Álgebra Linear} para analisar as descrições dos jogos e calcular a similaridade textual entre eles.
+
+A base de dados utilizada (\texttt{steam.csv}) contém informações como nome, gênero, tags e descrições dos jogos disponíveis na Steam. Por meio do modelo \textbf{TF-IDF (Term Frequency–Inverse Document Frequency)} e da \textbf{similaridade do cosseno}, o sistema identifica jogos com maior proximidade temática.
+
+O projeto foi desenvolvido na linguagem \textbf{Python}, utilizando as bibliotecas \texttt{Pandas}, \texttt{NumPy}, \texttt{scikit-learn}, \texttt{NLTK} e \texttt{ipywidgets}. Ele pode ser executado tanto em ambiente interativo (Google Colab) quanto diretamente pelo terminal.
+
+\section{Funcionamento do Sistema}
+
+O funcionamento do sistema de recomendação segue as seguintes etapas:
+
+\begin{enumerate}
+    \item \textbf{Carregamento e preparação dos dados:} o arquivo \texttt{steam.csv} é lido com a biblioteca \texttt{Pandas}. As colunas \texttt{genres} e \texttt{steamspy\_tags} são combinadas para formar uma descrição textual completa de cada jogo.
+    
+    \item \textbf{Limpeza e pré-processamento:} são aplicadas expressões regulares para remover caracteres especiais, e o texto é convertido para letras minúsculas. Em seguida, são removidas \textit{stopwords} em inglês e aplicada a lematização de cada palavra com o \texttt{WordNetLemmatizer} da biblioteca \texttt{NLTK}.
+    
+    \item \textbf{Transformação vetorial:} o algoritmo \texttt{TfidfVectorizer} do \texttt{scikit-learn} é utilizado para converter o texto em vetores numéricos, onde cada palavra recebe um peso proporcional à sua importância dentro do corpus.
+    
+    \item \textbf{Cálculo da similaridade:} a matriz de similaridade é obtida por meio da \texttt{cosine\_similarity}, permitindo medir a proximidade entre cada par de jogos.
+    
+    \item \textbf{Interface de interação:} o sistema oferece dois modos de uso:
+    \begin{itemize}
+        \item \textbf{Interface gráfica no Google Colab:} utilizando \texttt{ipywidgets}, o usuário digita o nome de um jogo e recebe uma tabela com os 10 jogos mais similares, colorida conforme o grau de similaridade.
+        \item \textbf{Interface de terminal:} o usuário digita o nome de um jogo e visualiza no console uma tabela textual com os resultados ordenados.
+    \end{itemize}
+\end{enumerate}
+
+\section{Análise dos Ângulos entre Vetores}
+
+Cada jogo é representado por um vetor numérico que descreve sua composição textual. A similaridade entre dois jogos é calculada pelo \textbf{cosseno do ângulo} entre seus vetores. Matematicamente, é dada por:
+
+\[
+\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{\|\vec{A}\| \|\vec{B}\|}
+\]
+
+onde \( \vec{A} \) e \( \vec{B} \) são os vetores TF-IDF de dois jogos. Assim:
+
+\begin{itemize}
+    \item Se \( \cos(\theta) \approx 1 \), os jogos são muito semelhantes;
+    \item Se \( \cos(\theta) \approx 0 \), eles compartilham poucos elementos em comum.
+\end{itemize}
+
+Essa relação vetorial é essencial para gerar recomendações mais precisas e baseadas em conteúdo textual.
+
+\section{Visualização das Recomendações}
+
+As recomendações geradas pelo sistema exibem:
+
+\begin{itemize}
+    \item \textbf{Ranking} de similaridade (\#1, \#2, \#3, ...);
+    \item \textbf{Nome do jogo recomendado};
+    \item \textbf{Valor da similaridade} em formato percentual;
+    \item No ambiente Colab, uma \textbf{tabela visual com gradiente de cor} (\texttt{style.background\_gradient}) indica o nível de proximidade entre os jogos.
+\end{itemize}
+
+Essa forma de apresentação torna os resultados mais intuitivos, permitindo ao usuário identificar rapidamente quais jogos possuem características mais próximas do jogo pesquisado.
+
+\section{Estrutura do Projeto}
+
+Os principais componentes do projeto são:
+
+\begin{itemize}
+    \item \texttt{main.py}: script principal que contém a lógica do sistema;
+    \item \texttt{prepare\_data()}: função responsável por limpar e lematizar o texto;
+    \item \texttt{calculate\_similarity\_matrix()}: gera a matriz de similaridade TF-IDF;
+    \item \texttt{get\_similar\_games()}: retorna os jogos mais parecidos com o título escolhido;
+    \item \texttt{create\_interface()}: cria a interface interativa para uso no Colab;
+    \item \texttt{steam.csv}: dataset utilizado, contendo informações de cada jogo.
+\end{itemize}
+
+\section{Como Executar o Projeto}
+
+Para executar o sistema, siga os passos abaixo:
+
+\begin{enumerate}
+    \item Verifique se a versão do Python que está utilizando é a 3.10 ou supeior.
+    \item Instale as dependências necessárias:
+    \begin{verbatim}
+    pip install pandas numpy scikit-learn nltk ipywidgets
+    \end{verbatim}
+    \item Garanta que o arquivo \texttt{steam.csv} esteja no mesmo diretório do \texttt{main.py}.
+    \item Execute o programa:
+    \begin{verbatim}
+    python main.py
+    \end{verbatim}
+\end{enumerate}
+
+Em ambiente Colab, basta carregar o código e a base de dados para iniciar a interface gráfica.
+
+\section{Conclusão}
+
+O sistema de recomendação de jogos da Steam demonstra a aplicação prática de técnicas de PLN e Álgebra Linear para resolver um problema real: sugerir jogos similares de forma automatizada. Ao transformar descrições e tags em representações numéricas, o sistema é capaz de identificar padrões semânticos e fornecer recomendações relevantes.
+
+Além de oferecer aprendizado prático sobre TF-IDF e similaridade do cosseno, o projeto também exemplifica como criar interfaces interativas com \texttt{ipywidgets} e integrar análises de texto em aplicações de recomendação.
+
+\end{document}
