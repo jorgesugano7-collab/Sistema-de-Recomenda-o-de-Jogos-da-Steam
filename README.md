@@ -1,4 +1,5 @@
 # Sistema de Recomendação de Jogos da Steam
+Use esse link para garantir o melhor funcionamento do programa: https://colab.research.google.com/drive/1Qc9kmfOLYn0HJ3kXOTWEQtfDKJ91BI4n
 
 O sistema de recomendação de jogos para a plataforma Steam, desenvolvido por Jorge Sugano Suzart em novembro de 2025. O projeto tem como principal objetivo auxiliar usuários a descobrirem novos títulos semelhantes aos seus jogos favoritos, aplicando conceitos de **Álgebra Linear** e **Processamento de Linguagem Natural (PLN)**.
 
